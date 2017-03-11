@@ -8,7 +8,7 @@
 #include <vector>
 #include <condition_variable>
 
-const int THREAD_POOL_SIZE = 16;
+const size_t THREAD_POOL_SIZE = 16;
 
 namespace iml{
 namespace train{
@@ -121,7 +121,7 @@ class ThreadPool{
             std::unique_lock<std::mutex>lck(_mutex);
             _queue.push(&work_data);
             //notify all suspended threads to "get_work_data"
-            _condition.notify_all();
+            _condition.notify_one();
         }
     private:
         std::vector<std::thread> _thread;
